@@ -1,6 +1,6 @@
 {
   "name": "webgltf",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A WebGL glTF library",
   "main": "lib/webgltf.js",
   "mode": "esm",
@@ -13,7 +13,7 @@
   },
   "author": "Shannon Poole <shannon.m.poole@gmail.com>",
   "license": "MIT",
-  "repository": "git@github.com/shannon/webgltf.git",
+  "repository": "https://github.com/shannon/webgltf",
   "dependencies": {
     "gl-matrix": "^2.4.0"
   },
