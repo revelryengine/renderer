@@ -1,0 +1,10 @@
+npm-debug.log
+package-lock.json
+.transpiled/
+.nyc_output/
+.esm-cache/
+coverage/
+node_modules/
+docs/
+dist/
+*.bak
