@@ -27,7 +27,7 @@
     "one-var-declaration-per-line": ["error", "initializations"],
     "class-methods-use-this": ["off"],
     "no-buffer-constructor": ["off"],
-    "dot-notation": ["error", { "allowPattern": "u_.*" }],
+    "dot-notation": ["error", { "allowPattern": "(u|a|HAS)_.*" }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "no-param-reassign": ["error", { "props": false }]
   }
