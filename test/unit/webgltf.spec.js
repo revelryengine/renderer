@@ -19,19 +19,19 @@ import { Texture    } from '../../lib/texture.js';
 describe('WebGLTF', () => {
   describe('basic fetching', () => {
     it('load glTF file from url', async () => {
-      const gltf = await WebGLTF.fetch(new URL('/base/test/fixtures/simple.gltf', window.location.href));
+      const gltf = await WebGLTF.load(new URL('/base/test/fixtures/simple.gltf', window.location.href));
       expect(gltf).to.be.an('Object');
     });
   });
 
   describe('version support', () => {
     it('should throw if major version number is not supported', async () => {
-      const promise = WebGLTF.fetch(new URL('/base/test/fixtures/unsupported-major.gltf', window.location.href));
+      const promise = WebGLTF.load(new URL('/base/test/fixtures/unsupported-major.gltf', window.location.href));
       return promise.catch(error => expect(error).to.be.an('error'));
     });
 
     it('should throw if minVersion is specified and greater than supported version', async () => {
-      const promise = WebGLTF.fetch(new URL('/base/test/fixtures/unsupported-minor.gltf', window.location.href));
+      const promise = WebGLTF.load(new URL('/base/test/fixtures/unsupported-minor.gltf', window.location.href));
       return promise.catch(error => expect(error).to.be.an('error'));
     });
   });
@@ -39,7 +39,7 @@ describe('WebGLTF', () => {
   describe('initialization', () => {
     let gltf;
     beforeEach(async () => {
-      gltf = await WebGLTF.fetch(new URL('/base/test/fixtures/simple.gltf', window.location.href));
+      gltf = await WebGLTF.load(new URL('/base/test/fixtures/simple.gltf', window.location.href));
     });
 
     it('should initialize asset', () => {
