@@ -1,22 +1,28 @@
 import { Renderer, WebGLTF } from '../lib/webgltf.js';
 import { mat4 } from '../vendor/gl-matrix.js';
+import { OrbitController } from './orbit.js';
 
-const url = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/8416be1c/2.0/DamagedHelmet/glTF/DamagedHelmet.gltf';
-// const url = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/8416be1c/2.0/Box/glTF/Box.gltf';
-// const url = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/8416be1c/2.0/Cube/glTF/Cube.gltf';
-// const url = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/8416be1c/2.0/Duck/glTF/Duck.gltf';
-// const url = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/8416be1c/2.0/MetalRoughSpheres/glTF/MetalRoughSpheres.gltf';
-// const url = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/8416be1c/2.0/Triangle/glTF/Triangle.gltf';
-// const url = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/8416be1c/2.0/Monster/glTF/Monster.gltf';
-(async () => {
-  const renderer = new Renderer('#main');
-  const model = await WebGLTF.load(url);
-  const camera = model.createCamera();
+const select   = document.querySelector('#sample');
+const renderer = new Renderer('#main');
 
-  mat4.lookAt(camera.matrix, [0, 0, -4], [0, 0, 0], [0, 1, 0]);
+const baseSampleUrl = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/8416be1c/2.0/';
 
-  requestAnimationFrame(function tick() {
-    requestAnimationFrame(tick);
-    renderer.render(model.scene || model.scenes[0], camera);
-  });
-})();
+let model, camera;
+const matrix = mat4.create();
+
+async function loadModel() {
+  model = await WebGLTF.load(`${baseSampleUrl}/${select.value}/glTF/${select.value}.gltf`);
+  camera = model.createCamera({ position: { matrix } });
+}
+
+select.addEventListener('change', loadModel);
+
+loadModel();
+
+(function render() {
+  requestAnimationFrame(render);
+  if (camera) mat4.copy(camera.matrix, matrix);
+  if (model) renderer.render(model.scene || model.scenes[0], camera);
+}());
+
+window.orbit = new OrbitController(renderer, matrix);

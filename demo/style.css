@@ -1,0 +1,7 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+canvas {
+  flex-grow: 1;
+}
