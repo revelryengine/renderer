@@ -35,7 +35,7 @@ export default [
       {
         file: 'dist/webgltf.umd.js',
         format: 'umd',
-        name: 'gltf',
+        name: 'webgltf',
         exports: 'named',
         sourcemap: true,
       },
@@ -54,7 +54,7 @@ export default [
       {
         file: 'dist/webgltf.umd.min.js',
         format: 'umd',
-        name: 'gltf',
+        name: 'webgltf',
         exports: 'named',
         sourcemap: true,
       },

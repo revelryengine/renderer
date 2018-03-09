@@ -6,7 +6,7 @@
 
 | Sample Model               | Geometry      | Material   | Animations   |
 | -------------------------- | ------------- | ---------- | ------------ |
-| [2CylinderEngine]          | [ ]           | [ ]        | [ ]          |
+| [2CylinderEngine]          | [x]           | [x]        | [ ]          |
 | [AnimatedCube]             | [x]           | [x]        | [ ]          |
 | [AnimatedMorphCube]        | [x]           | [x]        | [ ]          |
 | [AnimatedMorphSphere]      | [x]           | [x]        | [ ]          |
@@ -14,42 +14,42 @@
 | [Avocado]                  | [x]           | [x]        |              |
 | [BarramundiFish]           | [x]           | [x]        |              |
 | [BoomBox]                  | [x]           | [x]        |              |
-| [BoomBoxWithAxes]          | [ ]           | [x]        |              |
+| [BoomBoxWithAxes]          | [x]           | [x]        |              |
 | [Box]                      | [x]           | [x]        |              |
 | [BoxAnimated]              | [x]           | [x]        | [ ]          |
 | [BoxInterleaved]           | [x]           | [x]        |              |
 | [BoxTextured]              | [x]           | [x]        |              |
-| [BoxTexturedNonPowerOfTwo] | [ ]           | [ ]        |              |
-| [BoxVertexColors]          | [x]           | [ ]        |              |
-| [BrainStem]                | [x]           | [ ]        | [ ]          |
-| [Buggy]                    | [ ]           | [ ]        |              |
+| [BoxTexturedNonPowerOfTwo] | [x]           | [x]        |              |
+| [BoxVertexColors]          | [x]           | [?]        |              |
+| [BrainStem]                | [x]           | [x]        | [ ]          |
+| [Buggy]                    | [x]           | [x]        |              |
 | [Cameras]                  | [x]           | [x]        |              |
 | [CesiumMan]                | [x]           | [x]        | [ ]          |
-| [CesiumMilkTruck]          | [ ]           | [x]        | [ ]          |
+| [CesiumMilkTruck]          | [x]           | [x]        | [ ]          |
 | [Corset]                   | [x]           | [x]        |              |
 | [Cube]                     | [x]           | [x]        |              |
 | [DamagedHelmet]            | [x]           | [x]        |              |
 | [Duck]                     | [x]           | [x]        |              |
-| [GearboxAssy]              | [ ]           | [ ]        |              |
-| [Lantern]                  | [ ]           | [x]        |              |
+| [GearboxAssy]              | [x]           | [x]        |              |
+| [Lantern]                  | [x]           | [x]        |              |
 | [MetalRoughSpheres]        | [x]           | [x]        |              |
 | [Monster]                  | [x]           | [x]        | [ ]          |
 | [NormalTangentTest]        | [x]           | [x]        |              |
-| [ReciprocatingSaw]         | [ ]           | [x]        |              |
+| [ReciprocatingSaw]         | [x]           | [x]        |              |
 | [RiggedFigure]             | [x]           | [x]        | [ ]          |
 | [RiggedSimple]             | [x]           | [x]        | [ ]          |
 | [SciFiHelmet]              | [x]           | [x]        |              |
 | [SimpleMeshes]             | [x]           | [x]        | [ ]          |
-| [SimpleMorph]              | [ ]           | [x]        |              |
-| [SimpleSparseAccessor]     | [ ]           | [x]        |              |
+| [SimpleMorph]              | [x]           | [x]        |              |
+| [SimpleSparseAccessor]     | [ ]           | [ ]        |              |
 | [Suzanne]                  | [x]           | [x]        |              |
 | [TextureCoordinateTest]    | [x]           | [x]        |              |
 | [TextureSettingsTest]      | [x]           | [x]        |              |
 | [Triangle]                 | [x]           | [x]        |              |
-| [TriangleWithoutIndices]   | [ ]           | [ ]        |              |
+| [TriangleWithoutIndices]   | [x]           | [x]        |              |
 | [TwoSidedPlane]            | [x]           | [x]        |              |
-| [VC]                       | [ ]           | [ ]        | [ ]          |
-| [VertexColorTest]          | [x]           | [ ]        |              |
+| [VC]                       | [x]           | [x]        | [ ]          |
+| [VertexColorTest]          | [x]           | [x]        |              |
 | [WaterBottle]              | [x]           | [x]        |              |
 
 [Sample Models]: https://github.com/KhronosGroup/glTF-Sample-Models/tree/8416be1c/2.0/

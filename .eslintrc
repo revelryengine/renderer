@@ -29,6 +29,7 @@
     "no-buffer-constructor": ["off"],
     "dot-notation": ["error", { "allowPattern": "(u|a|HAS)_.*" }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "no-bitwise": ["off"]
   }
 }

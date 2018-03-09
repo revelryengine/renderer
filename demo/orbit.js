@@ -1,9 +1,12 @@
 import { mat4, vec3 } from '../vendor/gl-matrix.js';
 
 export class OrbitController {
-  constructor(renderer, matrix) {
+  constructor(renderer) {
     this.renderer = renderer;
-    this.matrix = matrix;
+
+    this.matrix = mat4.create();
+
+    this.scale = 1;
 
     this.radial = 3;
     this.polar = 0;
@@ -12,7 +15,7 @@ export class OrbitController {
     this.mousedown = null;
 
     this.renderer.context.canvas.addEventListener('wheel', (e) => {
-      this.radial += e.deltaY / 300;
+      this.radial += (e.deltaY / 300) * this.scale;
       this.radial = Math.max(this.radial, 0);
       this.updateMatrix();
     }, { passive: true });
