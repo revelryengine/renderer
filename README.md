@@ -6,10 +6,10 @@
 
 | Sample Model               | Geometry      | Material   | Animations   |
 | -------------------------- | ------------- | ---------- | ------------ |
-| [2CylinderEngine]          | [x]           | [x]        | [ ]          |
+| [2CylinderEngine]          | [x]           | [x]        |              |
 | [AnimatedCube]             | [x]           | [x]        | [ ]          |
-| [AnimatedMorphCube]        | [x]           | [x]        | [ ]          |
-| [AnimatedMorphSphere]      | [x]           | [x]        | [ ]          |
+| [AnimatedMorphCube]        | [x]           | [x]        | [x]          |
+| [AnimatedMorphSphere]      | [x]           | [x]        | [x]          |
 | [AnimatedTriangle]         | [x]           | [x]        | [ ]          |
 | [Avocado]                  | [x]           | [x]        |              |
 | [BarramundiFish]           | [x]           | [x]        |              |
@@ -39,8 +39,8 @@
 | [RiggedFigure]             | [x]           | [x]        | [ ]          |
 | [RiggedSimple]             | [x]           | [x]        | [ ]          |
 | [SciFiHelmet]              | [x]           | [x]        |              |
-| [SimpleMeshes]             | [x]           | [x]        | [ ]          |
-| [SimpleMorph]              | [x]           | [x]        |              |
+| [SimpleMeshes]             | [x]           | [x]        |              |
+| [SimpleMorph]              | [x]           | [x]        | [x]          |
 | [SimpleSparseAccessor]     | [ ]           | [ ]        |              |
 | [Suzanne]                  | [x]           | [x]        |              |
 | [TextureCoordinateTest]    | [x]           | [x]        |              |
