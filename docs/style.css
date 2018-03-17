@@ -1,0 +1,81 @@
+:root {
+  --primary: #212121;
+  --primary-light: #484848;
+  --primary-dark: #000000;
+  --primary-text: #ffffff;
+  --secondary: #00c652;
+  --secondary-light: #5efa81;
+  --secondary-dark: #009423;
+  --secondary-text: #000000;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, sans-serif;
+  color: rgba(0, 0, 0, 0.87);
+  /* overflow: hidden; */
+}
+
+.toolbar {
+  background-color: var(--primary);
+  color: var(--primary-text);
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+}
+
+.toolbar div {
+  flex-grow: 1;
+  padding: 15px;
+}
+
+.toolbar a {
+  color: var(--primary-text);
+  text-decoration: none;
+  padding:  15px;
+}
+
+.toolbar a:hover {
+  background-color: var(--primary-light);
+}
+
+.intro {
+  background-color: var(--primary);
+  color: var(--primary-text);
+  width: 100%;
+  min-height: 60vh;
+}
+
+.content {
+  margin: 15px;
+}
+
+webgltf-sample-viewer {
+  display: block;
+  box-sizing: border-box;
+  border: 1px solid var(--primary);
+}
+
+webgltf-viewer {
+  display: block;
+  position: relative;
+}
+
+webgltf-camera {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+webgltf-viewer canvas {
+  width: 100%;
+}
+
+webgltf-viewer.loading {
+  background-color: grey;
+}

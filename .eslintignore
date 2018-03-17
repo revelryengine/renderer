@@ -4,7 +4,6 @@ npm-debug.log
 .esm-cache/
 coverage/
 node_modules/
-docs/
 dist/
 vendor/
 **/templates
