@@ -1,7 +1,9 @@
 import './webgltf-camera.js';
 import { Renderer, Animator, WebGLTF } from '../lib/webgltf.js';
+import { Environment } from '../lib/renderer/environment.js';
 
 const io = new IntersectionObserver(entries => entries.forEach(entry => entry.target.onIntersectUpdate(entry)));
+const environment = Environment.load(new URL('./environments/papermill/papermill.gltf', import.meta.url));
 
 export class WebGLTFViewer extends HTMLElement {
   connectedCallback() {
@@ -46,8 +48,7 @@ export class WebGLTFViewer extends HTMLElement {
     this.removeChild(this.canvas);
     this.canvas = this.appendChild(document.createElement('canvas'));
 
-    this.renderer = new Renderer(this.canvas);
-
+    this.renderer = new Renderer(this.canvas, { environment: await environment });
     this.model = await WebGLTF.load(src);
 
     this.animator = new Animator(this.model.animations);

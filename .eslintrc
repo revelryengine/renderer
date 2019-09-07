@@ -30,6 +30,9 @@
     "dot-notation": ["error", { "allowPattern": "(u|a|HAS)_.*" }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "no-param-reassign": ["error", { "props": false }],
-    "no-bitwise": ["off"]
+    "no-bitwise": ["off"],
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": ["**/*.test.js", "**/*.spec.js", "./build-docs.js"]
+    }]
   }
 }

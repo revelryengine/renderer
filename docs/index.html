@@ -23,9 +23,9 @@
 &#x3C;script type=&#x22;module&#x22;&#x3E;
   import { Renderer, WebGLTF } from 'https://unpkg.com/webgltf/dist/webgltf.min.js';
 
-  const renderer = new Renderer('#main');
-
   (async () => {
+    const renderer = new Renderer('#main');
+
     const model = await WebGLTF.load('url/to/model.gltf');
     const scene = model.scene || model.scenes[0];
     const camera = model.createCamera();
@@ -34,15 +34,75 @@
 &#x3C;/script&#x3E;
       </pre>
 
-      <h2>Sample Models</h2>
+      <h2>Animations</h2>
+      <pre class="prettyprint lang-html">
+&#x3C;canvas id=&#x22;main&#x22;&#x3E;&#x3C;/canvas&#x3E;
+&#x3C;script type=&#x22;module&#x22;&#x3E;
+  import { Renderer, Animator, WebGLTF } from 'https://unpkg.com/webgltf/dist/webgltf.min.js';
 
+  (async () => {
+    const renderer = new Renderer('#main');
+
+    const model = await WebGLTF.load('url/to/model.gltf');
+    const scene = model.scene || model.scenes[0];
+    const camera = model.createCamera();
+    const animator = new Animator(model.animations);
+
+    let lastRenderTime = 0;
+    requestAnimationFrame(function loop(hrTime){
+      requestAnimationFrame(loop);
+
+      const delta = hrTime - lastRenderTime;
+
+      animator.update(delta);
+      renderer.render(scene, camera);
+
+      lastRenderTime = hrTime;
+    });
+  })();
+&#x3C;/script&#x3E;
+      </pre>
+
+      <h2>IBL Environment</h2>
+      <pre class="prettyprint lang-html">
+&#x3C;canvas id=&#x22;main&#x22;&#x3E;&#x3C;/canvas&#x3E;
+&#x3C;script type=&#x22;module&#x22;&#x3E;
+  import { Renderer, Animator, Environment, WebGLTF } from 'https://unpkg.com/webgltf/dist/webgltf.min.js';
+
+  (async () => {
+    const environment = await Environment.load('url/to/environment.gltf');
+    const renderer = new Renderer('#main', { environment });
+
+    const model = await WebGLTF.load('url/to/model.gltf');
+    const scene = model.scene || model.scenes[0];
+    const camera = model.createCamera();
+    const animator = new Animator(model.animations);
+
+    let lastRenderTime = 0;
+    requestAnimationFrame(function loop(hrTime){
+      requestAnimationFrame(loop);
+
+      const delta = hrTime - lastRenderTime;
+
+      animator.update(delta);
+      renderer.render(scene, camera);
+
+      lastRenderTime = hrTime;
+    });
+  })();
+&#x3C;/script&#x3E;
+      </pre>
+
+      <h2>Sample Models</h2>
       <webgltf-sample-viewer model="2CylinderEngine">
         <webgltf-camera znear="10" zfar="100000" position="[-300,300,600]" zoom-speed="100" pan-speed="100"></webgltf-camera>
       </webgltf-sample-viewer>
+      <webgltf-sample-viewer model="AlphaBlendModeTest"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="AnimatedCube"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="AnimatedMorphCube"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="AnimatedMorphSphere"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="AnimatedTriangle"></webgltf-sample-viewer>
+      <webgltf-sample-viewer model="AntiqueCamera"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="Avocado">
         <webgltf-camera position="[0,0.03,0.2]" target="[0,0.03,0]" zoom-speed="0.1" pan-speed="0.1"></webgltf-camera>
       </webgltf-sample-viewer>
@@ -87,21 +147,30 @@
       <webgltf-sample-viewer model="Lantern">
         <webgltf-camera position="[-14,28,28]" target="[3,13,-4]"></webgltf-camera>
       </webgltf-sample-viewer>
-      <webgltf-sample-viewer model="MetalRoughSpheres"></webgltf-sample-viewer>
+      <webgltf-sample-viewer model="MetalRoughSpheres">
+        <webgltf-camera position="[0,0,4]"></webgltf-camera>
+      </webgltf-sample-viewer>
       <webgltf-sample-viewer model="Monster">
         <webgltf-camera position="[1200,-3000,170]" target="[1200,0,-36]" zoom-speed="100" pan-speed="100" ></webgltf-camera>
       </webgltf-sample-viewer>
-      <webgltf-sample-viewer model="NormalTangentTest"></webgltf-sample-viewer>
+      <webgltf-sample-viewer model="MultiUVTest"></webgltf-sample-viewer>
+      <webgltf-sample-viewer model="NormalTangentTest">
+        <webgltf-camera position="[0,0,4]"></webgltf-camera>
+      </webgltf-sample-viewer>
       <webgltf-sample-viewer model="OrientationTest">
         <webgltf-camera position="[-10,10,20]" zoom-speed="10" pan-speed="10"></webgltf-camera>
       </webgltf-sample-viewer>
-      <webgltf-sample-viewer model="ReciprocatingSaw"></webgltf-sample-viewer>
+      <webgltf-sample-viewer model="ReciprocatingSaw">
+        <webgltf-camera znear="10" zfar="100000" position="[-300,300,600]" zoom-speed="100" pan-speed="100"></webgltf-camera>
+      </webgltf-sample-viewer>
       <webgltf-sample-viewer model="RiggedFigure"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="RiggedSimple"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="SciFiHelmet" ></webgltf-sample-viewer>
       <webgltf-sample-viewer model="SimpleMeshes"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="SimpleMorph"></webgltf-sample-viewer>
       <!-- <webgltf-sample-viewer model="SimpleSparseAccessor"></webgltf-sample-viewer> -->
+      <webgltf-sample-viewer model="SpecGlossVsMetalRough"></webgltf-sample-viewer>
+      <webgltf-sample-viewer model="Sponza"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="Suzanne"></webgltf-sample-viewer>
       <webgltf-sample-viewer model="TextureCoordinateTest">
         <webgltf-camera position="[0,0,4]"></webgltf-camera>

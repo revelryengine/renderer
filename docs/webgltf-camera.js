@@ -12,7 +12,7 @@ const DISTANCE_BOUNDS = [0, Infinity];
 const DAMPING = 0.75;
 const DEFAULT_POSITION = vec3.fromValues(-3, 3, 6);
 
-const ROTATE_K = 0.003;
+const ROTATE_K = 0.0025;
 const ZOOM_K = 0.001;
 const PAN_K = 0.01;
 

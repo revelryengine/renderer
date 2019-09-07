@@ -1,6 +1,6 @@
 import './webgltf-viewer.js';
 
-const baseSampleUrl = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/463e270e/2.0/';
+const baseSampleUrl = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/';
 
 export class WebGLTFSampleViewer extends HTMLElement {
   constructor() {
