@@ -1,38 +1,18 @@
 {
-  "parser": "babel-eslint",
   "parserOptions": {
-    "sourceType": "module",
-    "allowImportExportEverywhere": false,
-    "codeFrame": false
+    "ecmaVersion": 9,
+    "sourceType": "module"
   },
-  "extends": "airbnb-base",
+  "extends": "eslint:recommended",
+  "plugins": [
+    "import"
+  ],
   "env": {
-    "browser": true
+    "es6": true,
+    "browser": true,
+    "node": true
   },
   "rules": {
-    "max-len": ["error", 120, 2, {
-      "ignoreUrls": true,
-      "ignoreComments": true,
-      "ignoreRegExpLiterals": true,
-      "ignoreStrings": true,
-      "ignoreTemplateLiterals": true
-    }],
-    "no-console": ["off"],
-    "no-multi-spaces": ["error", { "exceptions": { "VariableDeclarator": true, "ImportDeclaration": true } }],
-    "import/extensions": ["off"],
-    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
-    "no-await-in-loop": ["off"],
-    "object-curly-newline": ["off"],
-    "one-var": ["error", { "initialized": "never" }],
-    "one-var-declaration-per-line": ["error", "initializations"],
-    "class-methods-use-this": ["off"],
-    "no-buffer-constructor": ["off"],
-    "dot-notation": ["error", { "allowPattern": "(u|a|HAS)_.*" }],
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "no-param-reassign": ["error", { "props": false }],
-    "no-bitwise": ["off"],
-    "import/no-extraneous-dependencies": ["error", {
-      "devDependencies": ["**/*.test.js", "**/*.spec.js", "./build-docs.js"]
-    }]
+    "no-console": "off"
   }
 }

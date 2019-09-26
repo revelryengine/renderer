@@ -1,21 +1,14 @@
-import resolve  from 'rollup-plugin-node-resolve';
-import virtual  from 'rollup-plugin-virtual';
-import uglify   from 'rollup-plugin-uglify';
-import replace  from 'rollup-plugin-replace';
+import resolve    from 'rollup-plugin-node-resolve';
+import virtual    from 'rollup-plugin-virtual';
+import { terser } from 'rollup-plugin-terser';
 
 export default [
   {
     input: '__virtual__',
     plugins: [
+      resolve(),
       virtual({
         __virtual__: 'export * from \'gl-matrix\';',
-      }),
-      resolve(),
-      replace({ // patch for https://github.com/toji/gl-matrix/issues/269
-        include: 'node_modules/gl-matrix/**',
-        values: {
-          'mat4.identity(': 'identity(',
-        },
       }),
     ],
     output: {
@@ -35,7 +28,7 @@ export default [
       {
         file: 'dist/webgltf.umd.js',
         format: 'umd',
-        name: 'webgltf',
+        name: 'WebGLTF',
         exports: 'named',
         sourcemap: true,
       },
@@ -43,7 +36,7 @@ export default [
   }, {
     input: 'lib/webgltf.js',
     plugins: [
-      uglify(),
+      terser(),
     ],
     output: [
       {
@@ -54,7 +47,7 @@ export default [
       {
         file: 'dist/webgltf.umd.min.js',
         format: 'umd',
-        name: 'webgltf',
+        name: 'WebGLTF',
         exports: 'named',
         sourcemap: true,
       },
