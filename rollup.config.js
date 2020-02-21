@@ -1,6 +1,7 @@
 import fetch      from 'node-fetch';
 import resolve    from 'rollup-plugin-node-resolve';
 import virtual    from 'rollup-plugin-virtual';
+import commonjs   from 'rollup-plugin-commonjs';
 
 function dracobase64() {
   return {
@@ -36,6 +37,36 @@ export default [
       file: 'vendor/gl-matrix.js',
       format: 'es',
       sourcemap: true,
+    },
+  },
+  {
+    input: '__virtual__',
+    plugins: [
+      virtual({
+        __virtual__: `
+          import HDRImage from 'https://enkimute.github.io/res/hdrpng.js';
+          export { HDRImage };
+          export default HDRImage;
+        `,
+      }),
+      commonjs(),
+      {
+        resolveId(source) {
+          try {
+            const url = new URL(source);
+            return url.href;
+          } catch(e) {
+            return null;
+          }
+        },
+        async load(id) {
+          return await fetch(id).then(res => res.text());
+        }
+      }
+    ],
+    output: {
+      file: 'vendor/hdrpng.js',
+      format: 'es'
     },
   },
   {
