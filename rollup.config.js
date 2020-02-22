@@ -1,7 +1,13 @@
+/* eslint-env node */
+
+/**
+ * This configuration is used to install third party dependencies as ES Modules
+ */
 import fetch      from 'node-fetch';
 import resolve    from 'rollup-plugin-node-resolve';
 import virtual    from 'rollup-plugin-virtual';
 import commonjs   from 'rollup-plugin-commonjs';
+import urlResolve from 'rollup-plugin-url-resolve';
 
 function dracobase64() {
   return {
@@ -34,7 +40,7 @@ export default [
       }),
     ],
     output: {
-      file: 'vendor/gl-matrix.js',
+      file: 'web_modules/gl-matrix.js',
       format: 'es',
       sourcemap: true,
     },
@@ -49,23 +55,11 @@ export default [
           export default HDRImage;
         `,
       }),
+      urlResolve(),
       commonjs(),
-      {
-        resolveId(source) {
-          try {
-            const url = new URL(source);
-            return url.href;
-          } catch(e) {
-            return null;
-          }
-        },
-        async load(id) {
-          return await fetch(id).then(res => res.text());
-        }
-      }
     ],
     output: {
-      file: 'vendor/hdrpng.js',
+      file: 'web_modules/hdrpng.js',
       format: 'es'
     },
   },
@@ -82,28 +76,9 @@ export default [
       dracobase64(),
     ],
     output: {
-      file: 'vendor/draco-decoder.js',
+      file: 'web_modules/draco-decoder.js',
       format: 'es',
       sourcemap: true,
     },
-  },
-  {
-    input: 'lib/webgltf.js',
-    output: [
-      {
-        file: 'dist/webgltf.js',
-        format: 'es',
-        sourcemap: true,
-      },
-    ],
-  },
-  {
-    input: 'lib/extensions/KHR_draco_mesh_compression.js',
-    output: {
-      file: 'dist/extensions/KHR_draco_mesh_compression.js',
-      format: 'es',
-      sourcemap: true,
-    },
-    external: ['../webgltf.js'],
   },
 ];

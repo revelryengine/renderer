@@ -4,18 +4,11 @@
     "sourceType": "module"
   },
   "extends": "eslint:recommended",
-  "plugins": [
-    "import"
-  ],
   "env": {
     "es6": true,
-    "browser": true,
-    "node": true
+    "browser": true
   },
   "rules": {
     "no-console": "off"
-  },
-  "globals": {
-    "SharedArrayBuffer": true
   }
 }

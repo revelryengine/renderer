@@ -6,5 +6,6 @@ coverage/
 node_modules/
 dist/
 vendor/
+web_modules/
 **/templates
 karma.conf.js
