@@ -4,6 +4,7 @@
   "description": "A WebGL glTF library",
   "main": "lib/webgltf.js",
   "type": "module",
+  "module": "lib/webgltf.js",
   "scripts": {
     "test": "karma start",
     "pretest": "eslint .",
