@@ -3,15 +3,13 @@
   "version": "0.1.0",
   "description": "A WebGL glTF library",
   "main": "lib/webgltf.js",
-  "mode": "esm",
+  "type": "module",
   "scripts": {
     "test": "karma start",
     "pretest": "eslint .",
     "precommit": "lint-staged",
     "prepublish": "npm run build",
-    "build": "rollup -c rollup.config.js",
-    "build:extensions": "rollup -c lib/extensions/rollup.config.js",
-    "build:renderer": "rollup -c lib/renderer/rollup.config.js"
+    "build": "rollup -c rollup.config.js"
   },
   "author": "Shannon Poole <shannon.m.poole@gmail.com>",
   "license": "MIT",
