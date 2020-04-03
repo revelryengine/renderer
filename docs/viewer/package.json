@@ -1,0 +1,28 @@
+{
+  "name": "webgltf-viewer",
+  "description": "Sample viewer for the WebGLTF library",
+  "scripts": {
+    "install": "snowpack && rollup -c rollup.config.js"
+  },
+  "dependencies": {
+    "lit-element": "^2.2.1",
+    "snowpack": "^1.4.0",
+    "webgltf": "file:../..",
+    "rollup": "^1.21.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-virtual": "^1.0.1",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-url-resolve": "^0.1.1"
+  },
+  "snowpack": {
+    "webDependencies": [
+      "lit-element",
+      "webgltf",
+      "webgltf/lib/renderer/renderer.js",
+      "webgltf/lib/renderer/animator.js",
+      "webgltf/lib/renderer/environment.js",
+      "webgltf/lib/renderer/graph.js",
+      "webgltf/lib/extensions/KHR_draco_mesh_compression.js"
+    ]
+  }
+}
