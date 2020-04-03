@@ -1,7 +1,7 @@
 import { LitElement, html, css } from '../web_modules/lit-element.js';
 
 import { WebGLTF     } from '../web_modules/webgltf.js';
-import { Renderer    } from '../web_modules/webgltf/lib/renderer/renderer.js';
+import { Renderer, RendererXR } from '../web_modules/webgltf/lib/renderer/renderer.js';
 import { Animator    } from '../web_modules/webgltf/lib/renderer/animator.js';
 import { Environment } from '../web_modules/webgltf/lib/renderer/environment.js';
 import '../web_modules/webgltf/lib/extensions/KHR_draco_mesh_compression.js';
@@ -17,6 +17,8 @@ class WebGLTFViewerElement extends LitElement {
       src: { type: String, reflect: true },
       showcontrols: { type: Boolean, reflect: true },
       loading: { type: Boolean, reflect: true},
+      xrSupported: { type: Boolean, reflect: true },
+      xrSession: { type: Object },
     }
   }
 
@@ -28,8 +30,8 @@ class WebGLTFViewerElement extends LitElement {
       this.controls = document.createElement('webgltf-viewer-controls');
       this.controls.addEventListener('change', () => this.onControlsChange());
     }
-
     this.renderer = new Renderer(this.canvas, { ibl: await environment });
+    this.xrSupported =  navigator.xr ||  await navigator.xr.isSessionSupported('immersive-vr');
   }
 
   async disconnectedCallback() {
@@ -69,10 +71,13 @@ class WebGLTFViewerElement extends LitElement {
 
   render(){
     if(this.controls) this.controls.webgltf = this.webgltf;
+    const XRButton = this.xrSupported ? html`<button class="xr-button" @click="${() => this.toggleVR()}">Toggle VR</button>` : '';
     return html`
+      ${XRButton}
       ${this.camera}
       ${this.canvas}
       ${this.controls}
+
       <div class="loader">Loading...</div>
     `;
   }
@@ -98,6 +103,31 @@ class WebGLTFViewerElement extends LitElement {
     this.lastRenderTime = hrTime;
   }
 
+  renderWebGLTFXR(hrTime, xrFrame) {
+    this.xrRequestId = this.xrSession.requestAnimationFrame((hrTime, xrFrame) => this.renderWebGLTFXR(hrTime, xrFrame));
+
+    if(this.scene) {
+      const scene = this.controls && this.webgltf.scenes[this.controls.scene.scene] || this.scene;
+      this.xrRenderer.render(scene, this.xrRefSpace, xrFrame);
+    }
+  }
+
+  async toggleVR() {
+    if(!this.xrSession) {
+      this.xrSession  = await navigator.xr.requestSession('immersive-vr');
+      this.xrRenderer = new RendererXR({ ibl: await environment });
+
+      this.xrSession.updateRenderState({ baseLayer: new XRWebGLLayer(this.xrSession, this.xrRenderer.context) });
+      this.xrRefSpace = await this.xrSession.requestReferenceSpace('local');
+      this.xrRequestId = this.xrSession.requestAnimationFrame((hrTime, xrFrame) => this.renderWebGLTFXR(hrTime, xrFrame));
+    } else {
+      this.xrSession.end();
+      this.xrRenderer.destroy();
+      delete this.xrRenderer;
+      delete this.xrSession;
+    }
+  }
+
   static get styles() {
     return css`
       :host {
@@ -107,7 +137,6 @@ class WebGLTFViewerElement extends LitElement {
         width: 100%;
         height: 100%;
       }
-
 
       :host([loading]) canvas {
         filter: blur(4px);
@@ -163,10 +192,15 @@ class WebGLTFViewerElement extends LitElement {
       aside .controls select {
         width: 100%;
       }
+
+      .xr-button {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+      }
     `;
   }
 }
 
 customElements.define('webgltf-viewer', WebGLTFViewerElement);
-
-

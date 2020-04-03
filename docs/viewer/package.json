@@ -2,7 +2,8 @@
   "name": "webgltf-viewer",
   "description": "Sample viewer for the WebGLTF library",
   "scripts": {
-    "install": "snowpack && rollup -c rollup.config.js"
+    "install": "snowpack && rollup -c rollup.config.js",
+    "snowpack": "snowpack"
   },
   "dependencies": {
     "lit-element": "^2.2.1",
