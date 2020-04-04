@@ -1,6 +1,6 @@
 import { LitElement, html, css } from '../web_modules/lit-element.js';
 
-import { WebGLTF     } from '../web_modules/webgltf.js';
+import { WebGLTF } from '../web_modules/webgltf.js';
 import { Renderer, RendererXR } from '../web_modules/webgltf/lib/renderer/renderer.js';
 import { Animator    } from '../web_modules/webgltf/lib/renderer/animator.js';
 import { Environment } from '../web_modules/webgltf/lib/renderer/environment.js';
@@ -46,7 +46,6 @@ class WebGLTFViewerElement extends LitElement {
       this.animator = new Animator(this.webgltf.animations);
 
       this.scene = this.webgltf.scene || this.webgltf.scenes[0];
-
       this.camera.resetToScene(this.scene);
       this.lastRenderTime = performance.now();
 
@@ -108,7 +107,23 @@ class WebGLTFViewerElement extends LitElement {
 
     if(this.scene) {
       const scene = this.controls && this.webgltf.scenes[this.controls.scene.scene] || this.scene;
-      this.xrRenderer.render(scene, this.xrRefSpace, xrFrame);
+
+      for (let source of this.xrSession.inputSources) {
+        if (source.gamepad) {
+          const [a] = source.gamepad.buttons;
+          const [x, y] = source.gamepad.axes;
+
+          if(a.pressed) {
+            this.camera.input.pan[0] += x;
+            this.camera.input.pan[1] += y;
+          } else {
+            if(Math.abs(x) > 0.01) this.camera.input.roll -= x * this.camera.speed.rotate * 0.025;
+            if(Math.abs(y) > 0.01) this.camera.input.pitch -= y * this.camera.speed.rotate * 0.025;
+          }
+        }
+      }
+
+      this.xrRenderer.render(scene, this.xrRefSpace.getOffsetReferenceSpace(this.camera.getRigidTransform()), xrFrame);
     }
   }
 

@@ -3,7 +3,7 @@ import { LitElement } from '../web_modules/lit-element.js';
 import { Camera, Node, glMatrix } from '../web_modules/webgltf.js';
 import { Graph } from '../web_modules/webgltf/lib/renderer/graph.js';
 
-const { vec3, mat4 } = glMatrix;
+const { vec3, mat4, quat } = glMatrix;
 
 const tmpV = vec3.create();
 
@@ -285,6 +285,21 @@ export class ViewerCamera extends LitElement {
     this.zoom = 0;
 
     this.update();
+  }
+
+  getRigidTransform() {
+
+    const inverse = mat4.create();
+    const translation = vec3.create();
+    const orientation = quat.create();
+
+    mat4.invert(inverse, this.node.matrix);
+    mat4.getTranslation(translation, inverse);
+    mat4.getRotation(orientation, inverse);
+
+    return new XRRigidTransform(
+      { x: translation[0], y: translation[1], z: translation[2] },
+      { x: orientation[0], y: orientation[1], z: orientation[2], w: orientation[3] });
   }
 }
 

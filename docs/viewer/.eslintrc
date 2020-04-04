@@ -1,5 +1,6 @@
 {
   "globals": {
-    "XRWebGLLayer": "readonly"
+    "XRWebGLLayer": "readonly",
+    "XRRigidTransform": "readonly"
   }
 }
