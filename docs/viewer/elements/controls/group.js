@@ -1,4 +1,5 @@
 import { LitElement, html, css } from '../../web_modules/lit-element.js';
+import '../icon.js';
 
 class WebGLTFViewerControlGroupElement extends LitElement {
   static get properties() {
@@ -10,9 +11,8 @@ class WebGLTFViewerControlGroupElement extends LitElement {
 
   render(){
     return html`
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <header @click=${() => this.collapsed = !this.collapsed} ?collapsed="${this.collapsed}">
-        <i class="material-icons">keyboard_arrow_down</i>
+        <webgltf-icon name="chevron-down"></webgltf-icon>
         <span>${this.name}</span>
       </header>
       <main ?collapsed="${this.collapsed}">
@@ -41,15 +41,19 @@ class WebGLTFViewerControlGroupElement extends LitElement {
       }
 
       header:hover {
-        background-color: var(--primary-light);
+        background-color: var(--mono-shade2);
       }
 
-      header .material-icons {
+      header:hover:active {
+        background-color: var(--mono-shade1);
+      }
+
+      header webgltf-icon {
         font-size: inherit;
         transition: transform 0.1s ease-out;
       }
 
-      header[collapsed] .material-icons {
+      header[collapsed] webgltf-icon {
         transform: rotate(-90deg);
       }
 

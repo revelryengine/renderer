@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" touch-action="none">
 <head>
   <meta charset="UTF-8">
   <title>WebGLTF - A WebGL glTF library</title>
@@ -7,12 +7,13 @@
   <meta name="description" content="A WebGL glTF library">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
   <script type="module" src="viewer/elements/viewer.js"></script>
   <style>
-    @import "https://fonts.googleapis.com/icon?family=Material+Icons";
-
     :root {
       --theme-color     :#ffeb3b;
+
       --mono-hue        : 240;
       --mono-saturation : 5%;
       --mono-shade3     : hsl(var(--mono-hue), var(--mono-saturation), 10%);
@@ -27,6 +28,9 @@
       --primary-light : var(--mono-base);
       --primary-dark  : var(--mono-tint3);
       --primary-text  : #ffffff;
+
+      --card-shadow-1 : 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --card-shadow-2 : 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     }
 
     html,  body,
@@ -48,6 +52,10 @@
     webgltf-viewer {
       flex-grow: 1;
       box-sizing: border-box;
+    }
+
+    button.sidebar-toggle::-moz-focus-inner { /* fix for firefox mobile */
+      border: 0 !important;
     }
   </style>
 </head>

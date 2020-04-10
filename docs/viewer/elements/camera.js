@@ -103,6 +103,9 @@ export class ViewerCamera extends LitElement {
     this.addEventListener('pointerdown', downEvent, { passive:false });
     this.addEventListener('pointermove', moveEvent, { passive:false });
     this.addEventListener('pointerup', upEvent);
+    window.addEventListener('pointerout', () => {
+      ptrCache.length = 0;
+    });
 
     this.graph = new Graph();
   }
