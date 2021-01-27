@@ -1,4 +1,4 @@
-import { LitElement, html, css } from '../web_modules/lit-element.js';
+import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element';
 
 import './icon.js';
 import './fab.js';
@@ -25,14 +25,19 @@ class WebGLTFVRControl extends LitElement {
   async toggleVR(){
     if(!this.xrSession) {
       this.xrSession  = await navigator.xr.requestSession('immersive-vr');
+      this.xrSession.onend = () => {
+        delete this.xrSession;
+        this.viewer.renderer.context.canvas.width = 0;
+        this.viewer.renderer.scaleFactor = 1;
+        this.requestUpdate();
+      };
 
       this.xrSession.updateRenderState({ baseLayer: new XRWebGLLayer(this.xrSession, this.viewer.renderer.context) });
       this.xrRefSpace = await this.xrSession.requestReferenceSpace('local');
       this.xrRequestId = this.xrSession.requestAnimationFrame((hrTime, xrFrame) => this.renderWebGLTFXR(hrTime, xrFrame));
+      this.viewer.renderer.scaleFactor = 0.5;
     } else {
       this.xrSession.end();
-      delete this.xrSession;
-      this.viewer.renderer.context.canvas.width = 0;
     }
     this.requestUpdate();
   }
@@ -46,8 +51,6 @@ class WebGLTFVRControl extends LitElement {
           const [trigger, squeeze] = source.gamepad.buttons;
           const [thumbX, thumbY] = source.gamepad.axes;
 
-          // console.log(...source.gamepad.buttons);
-          // console.log(...source.gamepad.axes);
           if(trigger.pressed) {
             if(Math.abs(thumbX) > 0.01) this.viewer.camera.input.pan[0] += thumbX * 0.025;
             if(Math.abs(thumbY) > 0.01) this.viewer.camera.input.pan[1] += thumbY * 0.025;

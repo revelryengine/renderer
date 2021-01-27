@@ -1,7 +1,7 @@
-import { LitElement } from '../web_modules/lit-element.js';
+import { LitElement } from 'https://cdn.skypack.dev/lit-element';
 
-import { Camera, Node, glMatrix } from '../web_modules/webgltf.js';
-import { Graph } from '../web_modules/webgltf/lib/renderer/graph.js';
+import { Camera, Node, glMatrix } from '/lib/webgltf.js';
+import { Graph } from '/lib/renderer/graph.js';
 
 const { vec3, mat4, quat } = glMatrix;
 
@@ -95,17 +95,29 @@ export class ViewerCamera extends LitElement {
     }
 
     const zoomEvent = (e) => {
-      this.input.zoom -= e.deltaY * (this.speed.zoom * ZOOM_K) ;
+      let delta;
+      switch(e.deltaMode) {
+        case e.DOM_DELTA_PIXEL:
+          delta = e.deltaY;
+          break;
+        case e.DOM_DELTA_LINE:
+          delta = e.deltaY * parseInt(window.getComputedStyle(this).lineHeight);
+          break;
+        case e.DOM_DELTA_PAGE:
+          delta = e.deltaY * screen.height;
+          break;
+      }
+      this.input.zoom -= delta * (this.speed.zoom * ZOOM_K) ;
     }
 
-
-    this.addEventListener('mousewheel', zoomEvent, { passive: true });
-    this.addEventListener('pointerdown', downEvent, { passive:false });
-    this.addEventListener('pointermove', moveEvent, { passive:false });
+    this.addEventListener('wheel', zoomEvent, { passive: true });
+    this.addEventListener('pointerdown', downEvent, { passive: false });
+    this.addEventListener('pointermove', moveEvent, { passive: false });
     this.addEventListener('pointerup', upEvent);
-    window.addEventListener('pointerout', () => {
-      ptrCache.length = 0;
-    });
+    window.addEventListener('pointerout', upEvent);
+
+    // disable pull to refresh in FF for Android
+    this.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 
     this.graph = new Graph();
   }

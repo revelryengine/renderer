@@ -1,4 +1,4 @@
-import { html, css } from '../../web_modules/lit-element.js';
+import { html, css } from 'https://cdn.skypack.dev/lit-element';
 import { WebGLTFParamElement } from './param.js';
 import './group.js';
 

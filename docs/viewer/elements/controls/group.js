@@ -1,4 +1,4 @@
-import { LitElement, html, css } from '../../web_modules/lit-element.js';
+import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element';
 import '../icon.js';
 
 class WebGLTFViewerControlGroupElement extends LitElement {

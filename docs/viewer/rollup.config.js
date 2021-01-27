@@ -3,11 +3,8 @@ import virtual    from 'rollup-plugin-virtual';
 import json       from 'rollup-plugin-json';
 import urlResolve from 'rollup-plugin-url-resolve';
 
-const BASE_SAMPLE_URL = 'https://raw.githubusercontent.com/shannon/glTF-Sample-Models/draco-patch/2.0/';
-const BASE_SAMPLE_SOURCE_URL = 'https://github.com/shannon/glTF-Sample-Models/tree/draco-patch/2.0';
-
-// const BASE_SAMPLE_URL = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/';
-// const BASE_SAMPLE_SOURCE_URL = 'https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0';
+const BASE_SAMPLE_URL = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0';
+const BASE_SAMPLE_SOURCE_URL = 'https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0';
 
 export default [
   {

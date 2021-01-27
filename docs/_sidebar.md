@@ -1,5 +1,5 @@
 <!-- docs/_sidebar.md -->
 
-* [Home](/)
-* [Getting Started](/getting-started)
-* [Sample Viewer](/viewer)
+- [Home](/)
+- [Getting Started](/getting-started)
+- [Sample Viewer](/viewer)

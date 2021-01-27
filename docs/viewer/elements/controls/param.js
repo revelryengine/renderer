@@ -1,4 +1,4 @@
-import { LitElement } from '../../web_modules/lit-element.js';
+import { LitElement } from 'https://cdn.skypack.dev/lit-element';
 
 
 export function getParams() {

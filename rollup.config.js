@@ -4,7 +4,6 @@
  * This configuration is used to install third party dependencies as ES Modules
  */
 import fetch      from 'node-fetch';
-import resolve    from 'rollup-plugin-node-resolve';
 import virtual    from 'rollup-plugin-virtual';
 import commonjs   from 'rollup-plugin-commonjs';
 import urlResolve from 'rollup-plugin-url-resolve';
@@ -34,20 +33,6 @@ export default [
   {
     input: '__virtual__',
     plugins: [
-      resolve(),
-      virtual({
-        __virtual__: 'export * from \'gl-matrix\';',
-      }),
-    ],
-    output: {
-      file: 'web_modules/gl-matrix.js',
-      format: 'es',
-      sourcemap: true,
-    },
-  },
-  {
-    input: '__virtual__',
-    plugins: [
       virtual({
         __virtual__: `
           import HDRImage from 'https://enkimute.github.io/res/hdrpng.js';
@@ -59,7 +44,7 @@ export default [
       commonjs(),
     ],
     output: {
-      file: 'web_modules/hdrpng.js',
+      file: 'vendor/hdrpng.js',
       format: 'es'
     },
   },
@@ -76,7 +61,7 @@ export default [
       dracobase64(),
     ],
     output: {
-      file: 'web_modules/draco-decoder.js',
+      file: 'vendor/draco-decoder.js',
       format: 'es',
       sourcemap: true,
     },

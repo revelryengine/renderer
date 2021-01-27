@@ -1,4 +1,4 @@
-import { LitElement, html, css } from '../web_modules/lit-element.js';
+import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element';
 
 class WebGLTFIcon extends LitElement {
   static get properties() {

@@ -1,10 +1,10 @@
-import { LitElement, html, css } from '../web_modules/lit-element.js';
+import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element';
 
-import { WebGLTF } from '../web_modules/webgltf.js';
-import { Renderer } from '../web_modules/webgltf/lib/renderer/renderer.js';
-import { Animator    } from '../web_modules/webgltf/lib/renderer/animator.js';
-import { Environment } from '../web_modules/webgltf/lib/renderer/environment.js';
-import '../web_modules/webgltf/lib/extensions/KHR_draco_mesh_compression.js';
+import { WebGLTF } from '/lib/webgltf.js';
+import { Renderer } from '/lib/renderer/renderer.js';
+import { Animator    } from '/lib/renderer/animator.js';
+import { Environment } from '/lib/renderer/environment.js';
+import '/lib/extensions/KHR_draco_mesh_compression.js';
 
 import './controls/controls.js';
 import './camera.js';
@@ -18,6 +18,7 @@ class WebGLTFViewerElement extends LitElement {
       src:          { type: String,  reflect: true },
       showcontrols: { type: Boolean, reflect: true },
       loading:      { type: Boolean, reflect: true },
+      error:        { type: String,  reflect: true },
     }
   }
 
@@ -36,8 +37,6 @@ class WebGLTFViewerElement extends LitElement {
 
     this.vrControl = document.createElement('webgltf-vr-control');
     this.vrControl.viewer = this;
-    // potential fix for FF Mobile, uses pointer events polyfill
-    //this.camera.setAttribute('touch-action', 'none');
   }
 
   connectedCallback() {
@@ -53,7 +52,8 @@ class WebGLTFViewerElement extends LitElement {
 
   async loadModel() {
     this.loading = true;
-
+    this.error = false;
+    this.renderer.scaleFactor = 0.25;
     try {
       if(this.abortController) this.abortController.abort(); //abort any previously started loads
 
@@ -75,10 +75,11 @@ class WebGLTFViewerElement extends LitElement {
       console.log(this.webgltf);
     } catch(e) {
       if(e.name !== 'AbortError') {
+        this.error = e.message;
         console.trace(e);
       }
     }
-
+    this.renderer.scaleFactor = 1;
     this.loading = false;
   }
 
@@ -98,6 +99,11 @@ class WebGLTFViewerElement extends LitElement {
       ${this.vrControl}
       ${this.showcontrols ? this.controls : ''}
       <div class="loader"><webgltf-icon name="spinner"></webgltf-icon> Loading</div>
+      <div class="error ${this.error ? 'show': 'hide'}">
+        <webgltf-icon name="exclamation-circle"></webgltf-icon> Failed to load model
+        <small><pre>${this.error}</pre></small>
+        <button @click="${() => this.error = false}">Dismiss</button>
+      </div>
     `;
   }
 
@@ -139,7 +145,17 @@ class WebGLTFViewerElement extends LitElement {
         display: inline-block;
       }
 
-      .loader {
+      .error.show {
+        display: inline-block;
+        font-size: var(--font-size-m);
+      }
+
+      .error button {
+        float: right;
+        cursor: pointer;
+      }
+
+      .loader, .error {
         display: none;
         position: absolute;
         left: 50%;
@@ -149,6 +165,7 @@ class WebGLTFViewerElement extends LitElement {
         background-color: var(--primary);
         padding: 15px;
         border-radius: 5px;
+        z-index: 3;
       }
 
       .loader webgltf-icon {
@@ -163,6 +180,7 @@ class WebGLTFViewerElement extends LitElement {
       canvas {
         width: 100%;
         height: 100%;
+        touch-action: none;
       }
 
       webgltf-viewer-camera {
@@ -173,6 +191,7 @@ class WebGLTFViewerElement extends LitElement {
         right: 0;
         bottom: 0;
         touch-action: none;
+        line-height: 24px;
       }
 
       webgltf-viewer-controls {

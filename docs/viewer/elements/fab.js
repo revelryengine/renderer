@@ -1,4 +1,4 @@
-import { LitElement, html, css } from '../web_modules/lit-element.js';
+import { LitElement, html, css } from 'https://cdn.skypack.dev/lit-element';
 
 import './icon.js';
 
@@ -26,6 +26,7 @@ class WebGLTFFAB extends LitElement {
         margin: 16px;
         box-shadow: var(--card-shadow-1);
         transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        user-select: none;
       }
 
       :host(:hover) {
