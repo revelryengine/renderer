@@ -1,6 +1,0 @@
-{
-  "globals": {
-    "XRWebGLLayer": "readonly",
-    "XRRigidTransform": "readonly"
-  }
-}

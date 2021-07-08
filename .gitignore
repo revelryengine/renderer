@@ -7,6 +7,5 @@ node_modules/
 dist/
 build/
 vendor/
-web_modules/
 *.bak
 package-lock.json

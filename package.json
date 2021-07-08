@@ -8,23 +8,18 @@
   "scripts": {
     "pretest": "eslint .",
     "precommit": "lint-staged",
-    "prepare": "rollup -c rollup.config.js",
-    "dev": "node dev-server.js"
+    "prepare": "node prepare.js"
   },
   "author": "Shannon Poole <shannon.m.poole@gmail.com>",
   "license": "MIT",
-  "repository": "https://github.com/shannon/webgltf",
+  "repository": "https://github.com/webgltf/webgltf",
   "devDependencies": {
-    "eslint": "^6.8.0",
+    "@babel/eslint-parser": "^7.14.7",
+    "@babel/preset-env": "^7.14.7",
+    "adm-zip": "^0.5.5",
+    "eslint": "^7.30.0",
     "husky": "^0.14.3",
-    "koa": "^2.11.0",
-    "koa-static-server": "^1.4.0",
     "lint-staged": "^6.1.1",
-    "node-fetch": "^2.6.0",
-    "rollup": "^1.21.4",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-url-resolve": "^0.1.1",
-    "rollup-plugin-virtual": "^1.0.1"
+    "node-fetch": "^2.6.0"
   }
 }
