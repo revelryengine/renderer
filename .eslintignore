@@ -10,5 +10,3 @@ web_modules/
 **/templates
 karma.conf.js
 prepare.js
-
-lib/editor
