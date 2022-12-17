@@ -1,1 +1,1 @@
-export * from 'https://cdn.skypack.dev/gl-matrix';
+export * from 'https://cdn.jsdelivr.net/gh/toji/gl-matrix@v3.4.1/src/index.js';
