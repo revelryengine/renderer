@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
+  },
+  "lock": false,
+  "imports": {
+    "https://cdn.jsdelivr.net/gh/revelryengine/": "../"
+  },
+  "importMap": "./vendor/import_map.json"
+}

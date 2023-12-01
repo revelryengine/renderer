@@ -13,10 +13,11 @@
         "declaration": true,
         "emitDeclarationOnly": true,
         "outDir": "types",
-        "checkJs": false,
+        "checkJs": true,
         "allowImportingTsExtensions":true,
         "noErrorTruncation": true,
         "paths": {
+            "https://cdn.jsdelivr.net/gh/revelryengine/*": ["../*"],
             "https://*": ["./vendor/*"]
         }
     }
