@@ -1,4 +1,4 @@
-import { STD140_LAYOUT  } from './constants';
+import { STD140_LAYOUT  } from './constants.js';
 import { REVBuffer, RevGAL } from './revgal.js';
 
 type STD140_LAYOUT_TYPE = keyof typeof STD140_LAYOUT;
@@ -101,17 +101,19 @@ declare class STD140Layout<T extends Record<string, STD140LayoutFieldType> = Rec
 }
 
 type UBOConstructor<T extends Record<string, STD140LayoutFieldType> = Record<string, STD140LayoutFieldType>> = {
-    new (gal: import('./revgal').RevGAL, values?: any): UBO<T> & STD140LayoutView<T>;
+    new (gal: import('./revgal.js').RevGAL, values?: STD140LayoutValueSetter<T>): InstanceType<typeof UBO<T>> & STD140LayoutView<T>;
+
     /**
      * The STD140 layout used to define the memory layout of the struct on the GPU.
      */
     layout: STD140Layout<T>;
 
-
     /**
      * Default values to set during instantiation.
      */
     defaults?: STD140LayoutValueSetter<T>;
+
+    generateUniformBlock(type: 'wgsl'|'glsl', group: number|string, binding: number|string, name?: string): string;
 }
 
 
@@ -120,8 +122,8 @@ type UBOConstructor<T extends Record<string, STD140LayoutFieldType> = Record<str
  * It works by creating ArrayBufferViews on a larger buffer.
  * The object can be modified using standard properties and then uploaded at the start of a render call.
  */
-declare class UBO<T extends Record<string, STD140LayoutFieldType> = Record<string, STD140LayoutFieldType>> {
-    constructor(gal: import('./revgal').RevGAL, values?: STD140LayoutValueSetter<T>)
+export declare class UBO<T extends Record<string, STD140LayoutFieldType> = Record<string, STD140LayoutFieldType>> {
+    constructor(gal: import('./revgal.js').RevGAL, values?: STD140LayoutValueSetter<T>)
 
     gal:    RevGAL;
     buffer: REVBuffer;
@@ -144,6 +146,7 @@ declare class UBO<T extends Record<string, STD140LayoutFieldType> = Record<strin
      */
     defaults?: STD140LayoutValueSetter<T>;
 
+
     /**
      * Retruns a mat3x3 aligned to support std140 layout.
      */
@@ -156,4 +159,7 @@ declare class UBO<T extends Record<string, STD140LayoutFieldType> = Record<strin
      * @param defaults - The Default values to set during instantiation
      */
     static Layout<T extends Record<string, STD140LayoutFieldType>>(layout: T, defaults?: STD140LayoutValueSetter<T>): UBOConstructor<T>;
+
+    static generateUniformBlock(type: 'wgsl'|'glsl', group: number|string, binding: number|string, name?: string): string;
+    generateUniformBlock(group: number|string, binding: number|string, name?: string): string;
 }

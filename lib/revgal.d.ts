@@ -330,12 +330,12 @@ type REVDeviceExtended = {
 export declare abstract class RevGAL<C extends { canvas: HTMLCanvasElement|OffscreenCanvas } = any, D extends REVDevice = REVDevice> {
     context:            C;
     device:             D & REVDeviceExtended;
-    api:                string;
-    language:           string;
+    api:                'webgpu'|'webgl2';
+    language:           'wgsl'|'glsl';
     ndcZO:              boolean;
     presentationFormat: GPUTextureFormat;
 
-    constructor(options: { context: C, device: D, api: string, language: string, ndcZO: boolean, presentationFormat: GPUTextureFormat });
+    constructor(options: { context: C, device: D, api: 'webgpu'|'webgl2', language: 'wgsl'|'glsl', ndcZO: boolean, presentationFormat: GPUTextureFormat });
 
     reconfigure(): void;
 

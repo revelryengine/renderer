@@ -24,9 +24,9 @@ export declare class RenderNode<A extends { colors?: Record<string, ColorAttachm
     constructor(renderPath: RenderPath);
 
     attachments: A;
-    connections = {};
-    output      = {};
-    size        = {};
+    connections: {};
+    output     : {};
+    size       : {};
 
     scaleFactor: number;
 
@@ -46,7 +46,7 @@ export declare class RenderNode<A extends { colors?: Record<string, ColorAttachm
     render(): void;
 
     begin(commandEncoder: REVCommandEncoder, options?: unknown): REVRenderPassEncoder;
-    run(commandEncoder: REVCommandEncoder): void
+    run(commandEncoder: REVCommandEncoder, options: { graph: import('../graph.js').Graph, frustum: import('../frustum.js').Frustum, instances: ReturnType<import('../graph.js').Graph['generateInstances']> }): void
     end(renderPassEncoder: REVRenderPassEncoder): void
 
     destroy(): void

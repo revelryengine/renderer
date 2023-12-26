@@ -1,4 +1,4 @@
-import { REVTexture, REVTextureView, RevGAL } from "./revgal";
+import { REVTexture, REVTextureView, RevGAL } from './revgal.js';
 
 type TBOLayoutDefinition = {
     width: number,
@@ -31,7 +31,7 @@ declare class TBOLayout {
 }
 
 type TBOConstructor<T extends TBOLayoutDefinition = TBOLayoutDefinition> = {
-    new (gal: import('./revgal').RevGAL): TBO<T>;
+    new (gal: import('./revgal.js').RevGAL): TBO<T>;
     /**
      * The layout used to define the memory layout of the texture on the GPU.
      */
@@ -80,7 +80,7 @@ export declare class TBO<T extends TBOLayoutDefinition = TBOLayoutDefinition> {
 }
 
 type MatrixTBOConstructor<T extends TBOLayoutDefinition = TBOLayoutDefinition> = {
-    new (gal: import('./revgal').RevGAL): MatrixTBO<T>;
+    new (gal: import('./revgal.js').RevGAL): MatrixTBO<T>;
     /**
      * The layout used to define the memory layout of the texture on the GPU.
      */
