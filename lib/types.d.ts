@@ -1,7 +1,7 @@
 declare namespace Revelry {
     namespace Renderer {
 
-        type ViewportCameraNode = import('./viewport').ViewportCameraNode;
-        type ViewportTarget     = import('./viewport').ViewportTarget;
+        type ViewportCameraNode = import('./viewport.js').ViewportCameraNode;
+        type ViewportTarget     = import('./viewport.js').ViewportTarget;
     }
 }
