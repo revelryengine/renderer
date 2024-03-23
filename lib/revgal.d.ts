@@ -5,32 +5,38 @@
  * This is not meant to be feature complete and only includes functionality required by the Revelry Engine render paths.
  * Some method comments borrowed from https://github.com/gpuweb/types becuase Typescript does not provide a way to inherit documentation comments.
  */
+import type { TypedArray      } from '../deps/utils.js';
+import type { Texture         } from '../deps/gltf.js';
+import type { DepthAttachment } from './render-paths/render-node.js';
+import type { ShaderConstructor, ShaderInitialized } from './render-paths/common/shaders/shader.js';
 
 type GL = WebGL2RenderingContext
 
 type Override<T1, T2> = Omit<T1, keyof T2> & T2;
 type Debrand<T>  = Omit<T, '__brand'>;
 
-interface REVBuffer          extends Debrand<GPUBuffer> {}
-interface REVTextureView     extends Debrand<GPUTextureView> {}
-interface REVSampler         extends Debrand<GPUSampler> {}
-interface REVBindGroupLayout extends Debrand<GPUBindGroupLayout> {}
-interface REVBindGroup       extends Debrand<GPUBindGroup> {}
-interface REVPipelineLayout  extends Debrand<GPUPipelineLayout> {}
-interface REVCommandBuffer   extends Debrand<GPUCommandBuffer> {}
-interface REVQuerySet        extends Debrand<GPUQuerySet> {}
+interface REVBuffer           extends Debrand<GPUBuffer> {}
+interface REVTextureView      extends Debrand<GPUTextureView> {}
+interface REVSampler          extends Debrand<GPUSampler> {}
+interface REVBindGroupLayout  extends Debrand<GPUBindGroupLayout> {}
+interface REVBindGroup        extends Debrand<GPUBindGroup> {}
+interface REVPipelineLayout   extends Debrand<GPUPipelineLayout> {}
+interface REVCommandBuffer    extends Debrand<GPUCommandBuffer> {}
+interface REVQuerySet         extends Debrand<GPUQuerySet> {}
 
-interface REVBufferBinding          extends Override<GPUBufferBinding, {  buffer: REVBuffer }> {}
-interface REVImageCopyBuffer        extends Override<GPUImageCopyTexture, { buffer: REVBuffer }> {}
-interface REVImageCopyTexture       extends Override<GPUImageCopyTexture, { texture: REVTexture }> {}
-interface REVImageCopyTextureTagged extends Override<GPUImageCopyTextureTagged, { texture: REVTexture }> {}
+interface REVBufferBinding               extends Override<GPUBufferBinding,               { buffer: REVBuffer }> {}
+interface REVImageCopyBuffer             extends Override<GPUImageCopyTexture,            { buffer: REVBuffer }> {}
+interface REVImageCopyTexture            extends Override<GPUImageCopyTexture,            { texture: REVTexture }> {}
+interface REVImageCopyTextureTagged      extends Override<GPUImageCopyTextureTagged,      { texture: REVTexture }> {}
+interface REVShaderModuleCompilationHint extends Override<GPUShaderModuleCompilationHint, { layout?: REVPipelineLayout | "auto" }> {}
+interface REVBindGroupEntry              extends Override<GPUBindGroupEntry,              { resource: REVTextureView | REVSampler | REVBufferBinding }> {}
 
 interface REVTexture extends Override<Debrand<GPUTexture>, {
     /**
      * Creates a {@link GPUTextureView}.
      * @param descriptor - Description of the {@link GPUTextureView} to create.
      */
-    createView(descriptor: GPUTextureViewDescriptor): REVTextureView
+    createView(descriptor?: GPUTextureViewDescriptor): REVTextureView
 }> {}
 interface REVShaderModule extends Override<Debrand<GPUShaderModule>, {
     /**
@@ -52,7 +58,7 @@ interface REVRenderPipeline extends Override<Debrand<GPURenderPipeline>, {
 
 interface REVBindGroupDescriptor extends Override<GPUBindGroupDescriptor, {
     layout: REVBindGroupLayout,
-    entries: Iterable<Override<GPUBindGroupEntry, { resource: REVTextureView | REVSampler | REVBufferBinding }>>
+    entries: Iterable<REVBindGroupEntry>
 }> {}
 
 interface REVPipelineLayoutDescriptor extends Override<GPUPipelineLayoutDescriptor, {
@@ -75,6 +81,10 @@ interface REVRenderPassDescriptor extends Override<GPURenderPassDescriptor, {
         glResolveTarget?: REVTextureView,
     }>;
     occlusionQuerySet?: REVQuerySet;
+}> {}
+
+interface REVShaderModuleDescriptor extends Override<GPUShaderModuleDescriptor, {
+    compilationHints?: REVShaderModuleCompilationHint[]
 }> {}
 
 /** {@link GPURenderPassEncoder} */
@@ -149,6 +159,48 @@ interface REVRenderPassEncoder {
      * @param firstInstance - First instance to draw.
      */
     drawIndexed(indexCount: GPUSize32, instanceCount?: GPUSize32, firstIndex?: GPUSize32, baseVertex?: GPUSignedOffset32, firstInstance?: GPUSize32): void;
+
+    /**
+     * Sets the current {@link GPUBindGroup} for the given index.
+     * @param index - The index to set the bind group at.
+     * @param bindGroup - Bind group to use for subsequent render or compute commands.
+     * 	<!--The overload appears to be confusing bikeshed, and it ends up expecting this to
+     * 	define the arguments for the 5-arg variant of the method, despite the "for"
+     * 	explicitly pointing at the 3-arg variant. See
+     * @param https - //github.com/plinss/widlparser/issues/56 and
+     * @param https - //github.com/tabatkins/bikeshed/issues/1740 -->
+     * @param dynamicOffsets - Array containing buffer offsets in bytes for each entry in
+     * 	`bindGroup` marked as {@link GPUBindGroupLayoutEntry#buffer}.{@link GPUBufferBindingLayout#hasDynamicOffset}.-->
+     */
+    setBindGroup(
+        index: GPUIndex32,
+        bindGroup: REVBindGroup | null,
+        dynamicOffsets?: Iterable<GPUBufferDynamicOffset>
+    ): undefined;
+
+    /**
+     * Sets the current {@link GPUBindGroup} for the given index, specifying dynamic offsets as a subset
+     * of a {@link Uint32Array}.
+     * @param index - The index to set the bind group at.
+     * @param bindGroup - Bind group to use for subsequent render or compute commands.
+     * @param dynamicOffsetsData - Array containing buffer offsets in bytes for each entry in
+     * 	`bindGroup` marked as {@link GPUBindGroupLayoutEntry#buffer}.{@link GPUBufferBindingLayout#hasDynamicOffset}.
+     * @param dynamicOffsetsDataStart - Offset in elements into `dynamicOffsetsData` where the
+     * 	buffer offset data begins.
+     * @param dynamicOffsetsDataLength - Number of buffer offsets to read from `dynamicOffsetsData`.
+     */
+    setBindGroup(
+        index: GPUIndex32,
+        bindGroup: REVBindGroup | null,
+        dynamicOffsetsData: Uint32Array,
+        dynamicOffsetsDataStart: GPUSize64,
+        dynamicOffsetsDataLength: GPUSize32
+    ): undefined;
+
+    /**
+     * Completes recording of the render pass commands sequence.
+     */
+    end(): undefined;
 }
 
 /** {@link GPUCommandEncoder} */
@@ -198,12 +250,12 @@ interface REVDevice {
      *
      * Specify glArray for WebGL2 support.
      */
-    createTexture(descriptor: GPUTextureDescriptor & { glArray?: boolean }): REVTexture;
+    createTexture(descriptor: GPUTextureDescriptor & { glArray?: boolean, glCubemap?: boolean }): REVTexture;
     /**
      * Creates a {@link GPUSampler}.
      * @param descriptor - Description of the {@link GPUSampler} to create.
      */
-    createSampler(descriptor: GPUSamplerDescriptor): REVSampler;
+    createSampler(descriptor?: GPUSamplerDescriptor): REVSampler;
     /**
      * Creates a {@link GPUBindGroupLayout}.
      * @param descriptor - Description of the {@link GPUBindGroupLayout} to create.
@@ -225,7 +277,7 @@ interface REVDevice {
      *
      * Specify glType for WebGL2 support.
      */
-    createShaderModule(descriptor: GPUShaderModuleDescriptor & { glType?: GL['VERTEX_SHADER'] | GL['FRAGMENT_SHADER'] }): REVShaderModule;
+    createShaderModule(descriptor: REVShaderModuleDescriptor & { glType?: GL['VERTEX_SHADER'] | GL['FRAGMENT_SHADER'] }): REVShaderModule;
     /**
      * Creates a {@link GPURenderPipeline} using immediate pipeline creation.
      * @param descriptor - Description of the {@link GPURenderPipeline} to create.
@@ -335,6 +387,8 @@ export declare abstract class RevGAL<C extends { canvas: HTMLCanvasElement|Offsc
     ndcZO:              boolean;
     presentationFormat: GPUTextureFormat;
 
+    readonly limits:    D['limits'];
+
     constructor(options: { context: C, device: D, api: 'webgpu'|'webgl2', language: 'wgsl'|'glsl', ndcZO: boolean, presentationFormat: GPUTextureFormat });
 
     reconfigure(): void;
@@ -344,36 +398,38 @@ export declare abstract class RevGAL<C extends { canvas: HTMLCanvasElement|Offsc
      */
     destroy(): void;
 
+    getContextView(): ReturnType<ReturnType<D['createTexture']>['createView']>;
+
     /**
      * Convenience method for creating a buffer from pre existing data
      */
-    createBufferWithData(options: { data: import('../deps/utils.js').TypedArray } & GPUBufferDescriptor): ReturnType<D['createBuffer']>;
+    createBufferWithData(options: { data: TypedArray, size?: number } & Omit<GPUBufferDescriptor, 'size'>): ReturnType<D['createBuffer']>;
 
     /**
      * Convenience method for creating a texture from pre existing data
      */
-    createTextureWithData(options: { data: ImageBitmapSource|HTMLCanvasElement|OffscreenCanvas|BufferSource|SharedArrayBuffer } & GPUTextureDescriptor): ReturnType<D['createTexture']>;
+    createTextureWithData(options: { data: ImageBitmapSource|HTMLCanvasElement|OffscreenCanvas|BufferSource|SharedArrayBuffer, glCubemap?: boolean, glArray?: boolean } & GPUTextureDescriptor): ReturnType<D['createTexture']>;
 
     /**
      * Convenience method for creating a texture from Image bitmap
      */
-    createTextureFromImageBitmapData(options: { data: ImageBitmapSource } & GPUTextureDescriptor): ReturnType<D['createTexture']>;
+    createTextureFromImageBitmapData(options: { data: ImageBitmapSource, glCubemap?: boolean, glArray?: boolean } & GPUTextureDescriptor): ReturnType<D['createTexture']>;
 
     /**
      * Gets a texture for a given gltf texture from the cache or creates it if it does not already exist.
      */
-    getTextureFromGLTF(gltfTexture: import('../deps/gltf.js').Texture): { texture: ReturnType<D['createTexture']>, sampler: ReturnType<D['createSampler']>, loaded: Promise<void> };
+    getTextureFromGLTF(gltfTexture: Texture): { texture: ReturnType<D['createTexture']>, sampler: ReturnType<D['createSampler']>, loaded: Promise<void> };
 
     /**
      * Creates a texture for a given gltf texture.
      * @see https://www.khronos.org/registry/glTF/specs/2.0/glTF-2.0.html#_filtering
      */
-    createTextureFromGLTF(gltfTexture: import('../deps/gltf.js').Texture): { texture: ReturnType<D['createTexture']>, sampler: ReturnType<D['createSampler']>, loaded: Promise<void> };
+    createTextureFromGLTF(gltfTexture: Texture): { texture: ReturnType<D['createTexture']>, sampler: ReturnType<D['createSampler']>, loaded: Promise<void> };
 
     /**
      * Generates a set of vertex and fragment shader modules. Will retrieve from cache or create if it does not already exists.
      */
-    generateShaders(shaderConstructor: import('./render-paths/common/shaders/shader.js').ShaderConstructor, input: any): { vertShader: ReturnType<D['createShaderModule']>, fragShader: ReturnType<D['createShaderModule']> }
+    generateShaders<T extends ShaderConstructor>(shaderConstructor: T, input: ShaderInitialized<InstanceType<T>>): { stages: { vertex: ReturnType<D['createShaderModule']>, fragment: ReturnType<D['createShaderModule']> }, source: { vertex: string, fragment: string } }
 
     /**
      * Clears the shader cache
@@ -398,7 +454,17 @@ export declare abstract class RevGAL<C extends { canvas: HTMLCanvasElement|Offsc
     /**
      * Reads a texture into an ArrayBuffer
      */
-    readTexture(texture: ReturnType<D['createTexture']>, options: { origin: GPUOrigin3D, size: GPUExtent3DDict, mipLevel?: number }): Promise<ArrayBuffer>
+    readTexture(texture: ReturnType<D['createTexture']>, options?: { origin?: GPUOrigin3D, size?: GPUExtent3DDict, mipLevel?: number }): Promise<ArrayBuffer>
+
+    /**
+     * Creates a function to resolve a multisampled depth attachment
+     */
+    createDepthTextureResolver?(attachment: DepthAttachment): (commandEncoder: ReturnType<D['createCommandEncoder']>) => void;
+
+    /**
+     * Creates a function to generate mipmaps for a texture
+     */
+    createMipmapGenerator(texture:  ReturnType<D['createTexture']>, viewDimension?: GPUTextureViewDimension): (commandEncoder: ReturnType<D['createCommandEncoder']>) => void;
 
     /**
      * Returns true if target is GPUCanvasContext or WebGL2RenderingContext
@@ -419,4 +485,7 @@ export declare abstract class RevGAL<C extends { canvas: HTMLCanvasElement|Offsc
      *Returns true if target is HTMLCanvasElement or OffscreenCanvas
      */
     static isCanvas(target: any): target is (HTMLCanvasElement | OffscreenCanvas)
+
+    requestAnimationFrame(callback: FrameRequestCallback): number;
+    cancelAnimationFrame(handle: number): void;
 }

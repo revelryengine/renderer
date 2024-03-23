@@ -125,6 +125,8 @@ type UBOConstructor<T extends Record<string, STD140LayoutFieldType> = Record<str
 export declare class UBO<T extends Record<string, STD140LayoutFieldType> = Record<string, STD140LayoutFieldType>> {
     constructor(gal: import('./revgal.js').RevGAL, values?: STD140LayoutValueSetter<T>)
 
+    name:   string;
+
     gal:    RevGAL;
     buffer: REVBuffer;
     data:   Uint8Array;
