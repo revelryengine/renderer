@@ -231,10 +231,11 @@ interface REVCommandEncoder {
  */
 interface REVDevice {
     readonly limits: {
-        readonly maxTextureDimension2D           : number,
-        readonly maxTextureArrayLayers           : number,
-        readonly maxSamplersPerShaderStage       : number,
-        readonly maxUniformBuffersPerShaderStage : number,
+        readonly maxTextureDimension2D            : number,
+        readonly maxTextureArrayLayers            : number,
+        readonly maxSamplersPerShaderStage        : number,
+        readonly maxUniformBuffersPerShaderStage  : number,
+        readonly maxColorAttachmentBytesPerSample : number,
     }
 
     readonly features: GPUSupportedFeatures;
