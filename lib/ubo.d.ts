@@ -139,6 +139,11 @@ export declare class UBO<T extends Record<string, STD140LayoutFieldType> = Recor
     upload(): void;
 
     /**
+     * Clears the buffer by filling it with zeros
+     */
+    clear(): void;
+
+    /**
      * The STD140 layout used to define the memory layout of the struct on the GPU. This is an alias to the UBOConstructor.layout
      */
     layout: STD140Layout<T>;
