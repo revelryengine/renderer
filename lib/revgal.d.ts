@@ -337,8 +337,16 @@ interface REVDevice {
         writeTexture(
             destination: REVImageCopyTexture,
             data:
-                | BufferSource
-                | SharedArrayBuffer,
+                ImageBitmapSource | HTMLCanvasElement | OffscreenCanvas | BufferSource | SharedArrayBuffer |
+                Uint8Array<ArrayBufferLike> |
+                Int8Array<ArrayBufferLike> |
+                Int16Array<ArrayBufferLike> |
+                Uint16Array<ArrayBufferLike> |
+                Uint32Array<ArrayBufferLike> |
+                Float32Array<ArrayBufferLike> |
+                Uint8ClampedArray<ArrayBuffer> |
+                Int32Array<ArrayBuffer> |
+                Float64Array<ArrayBuffer>,
             dataLayout: GPUImageDataLayout,
             size: GPUExtent3DStrict
         ): void;
