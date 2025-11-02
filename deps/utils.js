@@ -1,8 +1,8 @@
-export { merge             } from 'https://cdn.jsdelivr.net/gh/revelryengine/utils@v0.3.2-alpha/lib/merge.js';
-export { CanvasAutoResizer } from 'https://cdn.jsdelivr.net/gh/revelryengine/utils@v0.3.2-alpha/lib/canvas-auto-resizer.js';
-export { WeakCache         } from 'https://cdn.jsdelivr.net/gh/revelryengine/utils@v0.3.2-alpha/lib/weak-cache.js';
-export { PRNG              } from 'https://cdn.jsdelivr.net/gh/revelryengine/utils@v0.3.2-alpha/lib/prng.js';
-export { NonNull           } from 'https://cdn.jsdelivr.net/gh/revelryengine/utils@v0.3.2-alpha/lib/non-null.js';
+export { merge             } from 'revelryengine/utils/lib/merge.js';
+export { CanvasAutoResizer } from 'revelryengine/utils/lib/canvas-auto-resizer.js';
+export { WeakCache         } from 'revelryengine/utils/lib/weak-cache.js';
+export { PRNG              } from 'revelryengine/utils/lib/prng.js';
+export { NonNull           } from 'revelryengine/utils/lib/non-null.js';
 
-export * from 'https://cdn.jsdelivr.net/gh/revelryengine/utils@v0.3.2-alpha/lib/buffers.js';
-export * from 'https://cdn.jsdelivr.net/gh/revelryengine/utils@v0.3.2-alpha/lib/math.js';
+export * from 'revelryengine/utils/lib/buffers.js';
+export * from 'revelryengine/utils/lib/math.js';

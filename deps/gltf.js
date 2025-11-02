@@ -1,1 +1,1 @@
-export * from 'https://cdn.jsdelivr.net/gh/revelryengine/gltf@v0.3.4-alpha/lib/gltf.js';
+export * from 'revelryengine/gltf/lib/gltf.js';
